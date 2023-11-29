@@ -19,6 +19,7 @@
     "@graphql-tools/mock": "^9.0.0",
     "@graphql-tools/schema": "^10.0.2",
     "graphql": "^16.8.1",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "sqlite3": "^5.1.6"
   }
 }
