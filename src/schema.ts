@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 
 export const typeDefs = gql`
   type Query {
-    books: [Book]
-    drinks: [Drink]
+    books: [Book!]!
+    drinks: [Drink!]!
   }
 
   enum Vibes {
@@ -40,16 +40,16 @@ export const typeDefs = gql`
     author: String!
     image: String
     description: String!
-    genre: [Genre]
-    season: [Seasons]
-    vibe: [Vibes]
+    genre: [Genre!]!
+    season: [Seasons!]!
+    vibe: [Vibes!]!
   }
 
   type Drink {
     id: String!
     type: DrinkType!
     name: String!
-    season: [Seasons]
-    vibe: [Vibes]
+    season: [Seasons!]!
+    vibe: [Vibes!]!
   }
 `;

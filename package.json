@@ -20,6 +20,7 @@
     "@graphql-tools/schema": "^10.0.2",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
+    "sqlite": "^5.1.1",
     "sqlite3": "^5.1.6"
   }
 }

@@ -2,30 +2,31 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
-import { db, setupDB } from "./utils/setupDB";
-import { Drink } from "./data/dataTypes";
+import { setupDB } from "./utils/setupDB";
+import { Database } from "sqlite";
 
-setupDB();
+export type ContextValue = {
+  db: Database;
+};
 
-db.each(
-  `SELECT id, type, name, season, vibe as vibe FROM drinks`,
-  [],
-  (err, row: Drink) => {
-    if (err) console.log(err);
-    console.log(row);
-  }
-);
+async function main() {
+  const db = await setupDB();
 
-async function startApolloServer() {
-  const server = new ApolloServer({
+  const server = new ApolloServer<ContextValue>({
     typeDefs,
     resolvers,
   });
-  const { url } = await startStandaloneServer(server);
+  const { url } = await startStandaloneServer(server, {
+    context: async () => {
+      return {
+        db,
+      };
+    },
+  });
   console.log(`
     🚀  Server is running!
     📭  Query at ${url}
   `);
 }
 
-startApolloServer();
+void main();
