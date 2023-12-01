@@ -6,13 +6,13 @@ export const drinks: Array<Drink> = [
     type: "coffee",
     name: "Brewed Coffee",
     season: ["all"],
-    vibe: ["sophisticated"],
+    mood: ["sophisticated"],
   },
   {
     id: "2",
     type: "tea",
     name: "Matcha Latte",
     season: ["all"],
-    vibe: ["earthy", "cozy"],
+    mood: ["earthy", "cozy"],
   },
 ];

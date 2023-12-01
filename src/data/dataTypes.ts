@@ -1,4 +1,4 @@
-type Vibes =
+type Moods =
   | "cozy"
   | "energetic"
   | "sophisticated"
@@ -15,7 +15,7 @@ export type Drink = {
   type: "coffee" | "tea" | "other";
   name: string;
   season: Array<Seasons>;
-  vibe: Array<Vibes>;
+  mood: Array<Moods>;
 };
 
 export type Book = {
@@ -26,5 +26,5 @@ export type Book = {
   description: string;
   genre: Array<Genre>;
   season: Array<Seasons>;
-  vibe: Array<Vibes>;
+  mood: Array<Moods>;
 };

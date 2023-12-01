@@ -6,7 +6,7 @@ export const typeDefs = gql`
     drinks: [Drink!]!
   }
 
-  enum Vibes {
+  enum Moods {
     cozy
     energetic
     sophisticated
@@ -42,7 +42,7 @@ export const typeDefs = gql`
     description: String!
     genre: [Genre!]!
     season: [Seasons!]!
-    vibe: [Vibes!]!
+    mood: [Moods!]!
   }
 
   type Drink {
@@ -50,6 +50,6 @@ export const typeDefs = gql`
     type: DrinkType!
     name: String!
     season: [Seasons!]!
-    vibe: [Vibes!]!
+    mood: [Moods!]!
   }
 `;

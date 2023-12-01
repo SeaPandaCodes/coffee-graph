@@ -14,6 +14,7 @@ export async function setupDB() {
     begin;
     DROP TABLE IF EXISTS books;
     DROP TABLE IF EXISTS drinks;
+    DROP TABLE IF EXISTS moods;
 
     CREATE TABLE IF NOT EXISTS books(
       id VARCHAR(50) PRIMARY KEY,
@@ -23,7 +24,7 @@ export async function setupDB() {
       description TEXT NOT NULL,
       genre TEXT[] NOT NULL,
       season TEXT[] NOT NULL,
-      vibe TEXT[] NOT NULL
+      mood TEXT[] NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS drinks(
@@ -31,9 +32,26 @@ export async function setupDB() {
       type VARCHAR(50) NOT NULL,
       name VARCHAR(100) NOT NULL,
       season TEXT[] NOT NULL,
-      vibe TEXT[] NOT NULL
+      mood TEXT[] NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS moods(
+      id VARCHAR(50) PRIMARY KEY,
+      item_id VARCHAR(50) NOT NULL,
+      type VARCHAR(50) NOT NULL,
+      mood VARCHAR(100) NOT NULL
+    );
+
     commit;
+  `);
+
+  const insertMoods = await db.prepare(`
+      INSERT INTO moods(
+        id,
+        item_id,
+        type,
+        mood
+      ) VALUES (?,?,?,?)
   `);
 
   const insertBooks = await db.prepare(`
@@ -45,21 +63,30 @@ export async function setupDB() {
       description,
       genre,
       season,
-      vibe
+      mood
     ) VALUES (?,?,?,?,?,?,?,?)
     `);
 
   books.forEach(async (book) => {
+    const itemId = crypto.randomBytes(8).toString("hex");
     await insertBooks.run(
-      crypto.randomBytes(8).toString("hex"),
+      itemId,
       book.title,
       book.author,
       book.image,
       book.description,
       JSON.stringify(book.genre),
       JSON.stringify(book.season),
-      JSON.stringify(book.vibe)
+      JSON.stringify(book.mood)
     );
+    book.mood.forEach(async (mood) => {
+      await insertMoods.run(
+        crypto.randomBytes(8).toString("hex"),
+        itemId,
+        "book",
+        mood
+      );
+    });
   });
 
   await insertBooks.finalize();
@@ -70,21 +97,32 @@ export async function setupDB() {
       type,
       name,
       season,
-      vibe
+      mood
     ) VALUES (?,?,?,?,?)
   `);
 
   drinks.forEach(async (drink) => {
+    const itemId = crypto.randomBytes(8).toString("hex");
     await insertDrinks.run(
-      crypto.randomBytes(8).toString("hex"),
+      itemId,
       drink.type,
       drink.name,
       JSON.stringify(drink.season),
-      JSON.stringify(drink.vibe)
+      JSON.stringify(drink.mood)
     );
+    drink.mood.forEach(async (mood) => {
+      insertMoods.run(
+        crypto.randomBytes(8).toString("hex"),
+        itemId,
+        "drink",
+        mood
+      );
+    });
   });
 
   await insertDrinks.finalize();
+  await insertMoods.finalize();
+
   const result = await db.all(`SELECT * FROM drinks`);
   console.log(result);
   return db;
