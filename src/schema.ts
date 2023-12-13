@@ -4,6 +4,7 @@ export const typeDefs = gql`
   type Query {
     books: [Book!]!
     drinks: [Drink!]!
+    booksByMood(mood: String): [Book]!
   }
 
   enum Moods {

@@ -1,5 +1,5 @@
 import { ContextValue } from ".";
-import { Book, Drink } from "./data/dataTypes";
+import { Book, Drink, Genre, Moods, Seasons } from "./data/dataTypes";
 
 export const resolvers = {
   Query: {
@@ -8,7 +8,7 @@ export const resolvers = {
       const drinkRes = await ctx.db.all(`SELECT * FROM books`);
 
       for (const row of drinkRes) {
-        const moodsRes = await ctx.db.all(
+        const moodsRes: Array<{ mood: Moods }> = await ctx.db.all(
           `SELECT mood FROM moods WHERE item_id = ?`,
           [row.id]
         );
@@ -18,8 +18,8 @@ export const resolvers = {
           author: row.author,
           image: row.image,
           description: row.description,
-          genre: JSON.parse(row.genre),
-          season: JSON.parse(row.season),
+          genre: JSON.parse(row.genre) as Array<Genre>,
+          season: JSON.parse(row.season) as Array<Seasons>,
           mood: moodsRes.map((x) => x.mood),
         });
       }
@@ -37,9 +37,43 @@ export const resolvers = {
         result.push({
           id: row.id,
           name: row.name,
-          season: JSON.parse(row.season),
+          season: JSON.parse(row.season) as Array<Seasons>,
           type: row.type,
-          mood: moodRes.map((x) => x.mood),
+          mood: moodRes.map((x) => x.mood) as Array<Moods>,
+        });
+      }
+
+      return result;
+    },
+    booksByMood: async (_, { mood }, ctx: ContextValue) => {
+      const result: Array<Book> = [];
+      const booksRes = await ctx.db.all(
+        `
+        SELECT * FROM moods
+          WHERE type = 'book' AND
+            mood = ?
+      `,
+        [mood]
+      );
+
+      for (const row of booksRes) {
+        const bookDetails = await ctx.db.all(
+          `
+          SELECT * FROM books
+          WHERE id = ?
+        `,
+          [row.item_id]
+        );
+        const book = bookDetails[0];
+        result.push({
+          id: book.id,
+          title: book.title,
+          author: book.author,
+          image: book.image,
+          description: book.description,
+          genre: JSON.parse(book.genre) as Array<Genre>,
+          season: JSON.parse(book.season) as Array<Seasons>,
+          mood: [row.mood] as Array<Moods>,
         });
       }
 

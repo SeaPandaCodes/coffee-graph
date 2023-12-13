@@ -1,4 +1,4 @@
-type Moods =
+export type Moods =
   | "cozy"
   | "energetic"
   | "sophisticated"
@@ -6,9 +6,9 @@ type Moods =
   | "youthful"
   | "earthy";
 
-type Seasons = "all" | "summer" | "fall" | "winter" | "spring";
+export type Seasons = "all" | "summer" | "fall" | "winter" | "spring";
 
-type Genre = "horror" | "action";
+export type Genre = "horror" | "action";
 
 export type Drink = {
   id: string;
@@ -27,4 +27,11 @@ export type Book = {
   genre: Array<Genre>;
   season: Array<Seasons>;
   mood: Array<Moods>;
+};
+
+export type Mood = {
+  id: string;
+  item_id: string;
+  type: "book" | "drink";
+  mood: string;
 };
