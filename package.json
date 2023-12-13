@@ -18,6 +18,8 @@
     "@apollo/server": "^4.9.5",
     "@graphql-tools/mock": "^9.0.0",
     "@graphql-tools/schema": "^10.0.2",
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "sqlite": "^5.1.1",

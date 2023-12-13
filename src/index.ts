@@ -4,6 +4,7 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import { setupDB } from "./utils/setupDB";
 import { Database } from "sqlite";
+import { bookScraper } from "./utils/bookScraper";
 
 export type ContextValue = {
   db: Database;
@@ -27,6 +28,10 @@ async function main() {
     🚀  Server is running!
     📭  Query at ${url}
   `);
+
+  // bookScraper(
+  //   "removed to avoid copyright issues :( "
+  // );
 }
 
 void main();
