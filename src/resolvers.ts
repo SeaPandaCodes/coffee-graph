@@ -79,5 +79,8 @@ export const resolvers = {
 
       return result;
     },
+    booksBySubject: async (_, { subject }, ctx: ContextValue) => {
+      return await ctx.libraryAPI.getBooksBySubject(subject);
+    },
   },
 };

@@ -77,6 +77,5 @@ export async function bookScraper(url: string) {
       )
     )
     .then(async (response) => {});
-  console.log(books);
   return books;
 }

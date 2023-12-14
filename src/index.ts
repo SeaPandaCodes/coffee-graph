@@ -4,10 +4,11 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolvers";
 import { setupDB } from "./utils/setupDB";
 import { Database } from "sqlite";
-import { bookScraper } from "./utils/bookScraper";
+import { LibraryAPI } from "./utils/openLibraryAPI";
 
 export type ContextValue = {
   db: Database;
+  libraryAPI: LibraryAPI;
 };
 
 async function main() {
@@ -21,6 +22,7 @@ async function main() {
     context: async () => {
       return {
         db,
+        libraryAPI: new LibraryAPI(),
       };
     },
   });

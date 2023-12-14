@@ -123,7 +123,5 @@ export async function setupDB() {
   await insertDrinks.finalize();
   await insertMoods.finalize();
 
-  const result = await db.all(`SELECT * FROM drinks`);
-  console.log(result);
   return db;
 }

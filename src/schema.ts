@@ -5,6 +5,7 @@ export const typeDefs = gql`
     books: [Book!]!
     drinks: [Drink!]!
     booksByMood(mood: String): [Book]!
+    booksBySubject(subject: String): Subject
   }
 
   enum Moods {
@@ -52,5 +53,46 @@ export const typeDefs = gql`
     name: String!
     season: [Seasons!]!
     mood: [Moods!]!
+  }
+
+  type Author {
+    key: String
+    name: String
+  }
+
+  type Availability {
+    status: String
+    error_message: String
+    identifier: String
+    is_restricted: Boolean
+    is_browseable: Boolean
+  }
+
+  type Works {
+    key: String
+    title: String
+    edition_count: Int
+    cover_id: Int
+    cover_edition_key: String
+    subject: [String]
+    ia_collection: [String]
+    lendinglibrary: Boolean
+    printdisabled: Boolean
+    lending_edition: String
+    lending_identifier: String
+    authors: [Author]
+    first_publish_year: Int
+    ia: String
+    public_scan: Boolean
+    has_fulltext: Boolean
+    availability: Availability
+  }
+
+  type Subject {
+    key: String
+    name: String
+    subject_type: String
+    work_count: Int
+    works: [Works]
   }
 `;
